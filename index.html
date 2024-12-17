@@ -1,25 +1,125 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <title>Calculatrice PHP</title>
+    <meta charset="UTF-8">
+    <title>Calculatrice PHP</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Importation de la police Google Fonts */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('image.gif') no-repeat center center fixed;
+            background-size: cover;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Conteneur principal */
+        .calculator {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 15px;
+            padding: 30px;
+            width: 350px;
+            text-align: center;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Titre */
+        .calculator h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #00d9ff;
+            text-shadow: 0 0 8px #00d9ff;
+        }
+
+        /* Champs du formulaire */
+        .calculator label {
+            font-weight: 300;
+            font-size: 18px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .calculator input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+
+        .calculator button {
+            background: #00d9ff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .calculator button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Résultat */
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #00d9ff;
+            text-shadow: 0 0 6px #00d9ff;
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>Calculatrice en PHP</h1>
-<form method="post" action="">
-  <label for="num1">Premier nombre:</label>
-  <input type="text" id="num1" name="num1" required><br><br>
-  <label for="operator">Opérateur (+, -, *, /):</label>
-  <input type="text" id="operator" name="operator" required><br><br>
-  <label for="num2">Deuxième nombre:</label>
-  <input type="text" id="num2" name="num2" required><br><br>
-  <input type="submit" value="Calculer">
-</form>
+<div class="calculator">
+    <h1>Calculatrice</h1>
+    <form method="post" action="">
+        <label for="num1">Premier nombre:</label>
+        <input type="text" id="num1" name="num1" required>
 
-<?php
+        <label for="operator">Opérateur (+, -, *, /):</label>
+        <input type="text" id="operator" name="operator" required>
+
+        <label for="num2">Deuxième nombre:</label>
+        <input type="text" id="num2" name="num2" required>
+
+        <button type="submit">Calculer</button>
+    </form>
+
+    <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $num1 = $_POST['num1'];
-        $operator = $_POST['operator'];
-        $num2 = $_POST['num2'];
+        $num1 = htmlspecialchars($_POST['num1']);
+        $operator = htmlspecialchars($_POST['operator']);
+        $num2 = htmlspecialchars($_POST['num2']);
         $result = '';
 
         if (is_numeric($num1) && is_numeric($num2)) {
@@ -47,8 +147,9 @@
             $result = 'Erreur: Veuillez entrer des nombres valides';
         }
 
-        echo "<h2>Résultat: $result</h2>";
-}
-?>
+        echo "<div class='result'><strong>Résultat: </strong>" . htmlspecialchars($result) . "</div>";
+    }
+    ?>
+</div>
 </body>
 </html>
